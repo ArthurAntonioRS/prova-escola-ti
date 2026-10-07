@@ -51,3 +51,41 @@ A resposta deve possuir id, placa, entrada, saida, minutos e valor_centavos
 A saida deve representar o momento do encerramento
 
 O valor deve ser calculado utilizando a FRACAO_MINUTOS, TARIFA_HORA_CENTAVOS e TETO_DIARIO_CENTAVOS
+
+## UC3 — Listar ativos
+
+Cenário	Entrada	Esperado
+Existem bilhetes abertos	GET /bilhetes/ativos	HTTP 200 com os bilhetes abertos
+Não existem bilhetes ativos	Nenhum bilhete aberto	HTTP 200 com array vazio
+Bilhete encerrado	Bilhete com status encerrado	Não deve aparecer na lista
+Bilhete cancelado	Bilhete com status cancelado	Não deve aparecer na lista
+Vários bilhetes ativos	Mais de um bilhete aberto	Mais recentes primeiro
+
+## Critérios adicionais
+
+A resposta deve ser um array
+
+Apenas bilhetes com status aberto podem aparecer
+
+A ordenação deve colocar os bilhetes mais recentes primeiro
+
+## UC4 — Relatório diário
+
+Cenário	Entrada	Esperado
+Data válida	2026-10-05	HTTP 200 com relatório
+Data inválida	05-10-2026	HTTP 422 data_invalida
+Data sem bilhetes	Data sem encerramentos	HTTP 200 com valores zerados
+Bilhetes encerrados no dia	Data com bilhetes encerrados	Contabiliza os bilhetes e faturamento
+Média com resultado exato	Tempos cuja média seja inteira	Retorna a média inteira
+Média com .5	Média de 47,5	Retorna 48
+
+## Critérios adicionais
+
+O relatório deve retornar:
+
+'data'
+'total_bilhetes'
+'faturamento_centavos'
+'tempo_medio_minutos'
+
+O 'total_bilhetes', faturamento e tempo médio devem considerar somente os bilhetes encerrados na data informada

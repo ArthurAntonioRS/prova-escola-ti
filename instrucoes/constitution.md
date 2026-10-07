@@ -23,3 +23,17 @@ A cobrança deve arredondar o tempo para cima conforme a FRACAO_MINUTOS
 O valor cobrado nunca pode ultrapassar o TETO_DIARIO_CENTAVOS
 
 O valor retornado deve ser sempre um número inteiro em centavos
+
+Somente bilhetes com status aberto devem ser considerados ativos
+
+Os bilhetes ativos devem ser apresentados do mais recente para o mais antigo
+
+O endpoint deve retornar um array, mesmo quando não houver bilhetes ativos
+
+A data informada no relatório deve seguir o formato AAAA-MM-DD
+
+O relatório deve considerar os bilhetes encerrados no dia informado
+
+O faturamento deve ser apresentado em centavos inteiros
+
+O tempo médio deve ser arredondado com 0,5 para cima
