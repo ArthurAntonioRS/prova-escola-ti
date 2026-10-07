@@ -11,3 +11,15 @@ O valor sempre será em centavos inteiros, caso o centavo fique quebrado, ele de
 A API utiliza a porta 8002
 
 Os endpoints do sistema devem documentar as respostas de erro e sucesso
+
+O encerramento só pode ocorrer em bilhetes existentes
+
+Um bilhete já encerrado não pode ser encerrado novamente
+
+O tempo de permanência deve ser calculado em minutos inteiros
+
+A cobrança deve arredondar o tempo para cima conforme a FRACAO_MINUTOS
+
+O valor cobrado nunca pode ultrapassar o TETO_DIARIO_CENTAVOS
+
+O valor retornado deve ser sempre um número inteiro em centavos
