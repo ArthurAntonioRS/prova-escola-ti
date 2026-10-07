@@ -2,9 +2,9 @@
 
 # ALUNO
 
-Nome: ArthurAntonioRS
+Nome: Arthur Antonio Rabelo de Souza
 
-RA: >>> PREENCHER <<<
+RA: 230038052
 
 Conta GitHub: @ArthurAntonioRS
 
