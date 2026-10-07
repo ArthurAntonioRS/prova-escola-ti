@@ -37,3 +37,35 @@ O relatório deve considerar os bilhetes encerrados no dia informado
 O faturamento deve ser apresentado em centavos inteiros
 
 O tempo médio deve ser arredondado com 0,5 para cima
+
+Somente bilhetes com status aberto podem ser cancelados
+
+O cancelamento não gera cobrança
+
+Um bilhete cancelado não pode ser cancelado novamente
+
+Um bilhete cancelado não deve possuir saida ou valor_centavos
+
+A consulta deve retornar todos os bilhetes associados à placa informada
+
+O histórico deve incluir bilhetes abertos, encerrados e cancelados
+
+Os resultados devem ser apresentados do mais recente para o mais antigo
+
+Uma placa sem histórico deve retornar um array vazio
+
+A tolerância inicial definida por TOLERANCIA_MINUTOS é gratuita
+
+Se a duração for igual ou menor que a tolerância, o valor será zero
+
+Se a duração ultrapassar a tolerância, a cobrança será feita desde o primeiro minuto
+
+A tolerância não deve ser descontada do tempo cobrado
+
+Uma placa não pode possuir mais de um bilhete com status aberto
+
+Uma placa com bilhete encerrado pode abrir um novo bilhete
+
+Uma placa com bilhete cancelado pode abrir um novo bilhete
+
+A verificação deve ocorrer antes da criação do novo bilhete

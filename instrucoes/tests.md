@@ -89,3 +89,79 @@ O relatório deve retornar:
 'tempo_medio_minutos'
 
 O 'total_bilhetes', faturamento e tempo médio devem considerar somente os bilhetes encerrados na data informada
+
+## UC5 — Cancelar bilhete
+
+Cenário	Entrada	Esperado
+Bilhete aberto	ID de bilhete aberto	HTTP 200 com status: "cancelado"
+Bilhete inexistente	ID inexistente	HTTP 404 bilhete_nao_encontrado
+Bilhete encerrado	ID de bilhete encerrado	HTTP 409 bilhete_nao_aberto
+Bilhete já cancelado	ID de bilhete cancelado	HTTP 409 bilhete_nao_aberto
+
+## Critérios adicionais
+
+Após o cancelamento:
+
+O status deve ser cancelado
+
+Não deve existir cobrança
+
+Não deve ser gerada saida
+
+Não deve ser gerado valor_centavos
+
+A placa volta a poder abrir um novo bilhete
+
+## UC6 — Histórico por placa
+
+Cenário	Entrada	Esperado
+Placa com histórico	ABC1D23	HTTP 200 com todos os bilhetes
+Placa sem histórico	Placa inexistente	HTTP 200 com array vazio
+Placa com bilhete encerrado	Placa com encerramento	Bilhete aparece no histórico
+Placa com bilhete cancelado	Placa com cancelamento	Bilhete aparece no histórico
+Vários bilhetes	Placa com vários registros	Mais recentes primeiro
+
+## Critérios adicionais
+
+A consulta deve utilizar a placa informada
+
+Todos os status devem ser considerados
+
+Nenhum bilhete de outra placa deve aparecer
+
+A resposta deve sempre ser um array
+
+## UC7 — Tolerância gratuita
+
+Cenário	Entrada	Esperado
+Duração igual à tolerância	TOLERANCIA_MINUTOS	valor_centavos = 0
+Duração abaixo da tolerância	Menor que TOLERANCIA_MINUTOS	valor_centavos = 0
+Um minuto acima da tolerância	TOLERANCIA_MINUTOS + 1	Cobra desde o primeiro minuto
+Tolerância igual a zero	TOLERANCIA_MINUTOS = 0	Cobrança normal
+Duração acima da tolerância	Tempo superior à tolerância	Aplica cobrança integral
+
+## Critérios adicionais
+
+Quando a duração estiver dentro da tolerância, o valor deve ser 0
+
+Quando a duração ultrapassar a tolerância, o cálculo deve considerar todo o período desde a entrada, e não somente o período após a tolerância
+
+## UC8 — Uma vaga por placa
+
+Cenário	Entrada	Esperado
+Placa sem bilhete aberto	ABC1D23	HTTP 201
+Placa com bilhete aberto	ABC1D23	HTTP 409 bilhete_em_aberto
+Placa com bilhete encerrado	ABC1D23	HTTP 201
+Placa com bilhete cancelado	ABC1D23	HTTP 201
+Novo bilhete após encerramento	Placa anteriormente encerrada	Novo bilhete criado
+Novo bilhete após cancelamento	Placa anteriormente cancelada	Novo bilhete criado
+
+## Critérios adicionais
+
+Antes de criar um bilhete, o sistema deve verificar se existe outro bilhete da mesma placa com status aberto
+
+Caso exista, a criação deve ser recusada com HTTP 409 e:
+
+{"erro": "bilhete_em_aberto"}
+
+Caso o bilhete anterior esteja encerrado ou cancelado, a placa poderá abrir um novo bilhete
