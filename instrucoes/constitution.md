@@ -1,71 +1,23 @@
-## Regras Operacionais
+# Regras Operacionais
 
-A placa deve conter 7 caracteres alfanuméricos, todas as letras devem ser maiúsculas
+A placa deve conter exatamente 7 caracteres alfanuméricos, com letras sempre em maiúsculas.
 
-Datas e horários devem seguir o padrão ISO-8601 com fuso
+Datas e horários devem seguir o padrão ISO-8601 com fuso horário.
 
-O valor cobrado será por fração, caso passe 1 minuto, a próxima fração já é cobrada
+O valor cobrado deve ser calculado em frações de `FRACAO_MINUTOS`, sempre arredondando o tempo para cima.
 
-O valor sempre será em centavos inteiros, caso o centavo fique quebrado, ele deve ser arredondado para cima
+O valor de uma fração deve ser calculado a partir de `TARIFA_HORA_CENTAVOS`.
 
-A API utiliza a porta 8002
+O valor cobrado nunca pode ultrapassar `TETO_DIARIO_CENTAVOS`.
 
-Os endpoints do sistema devem documentar as respostas de erro e sucesso
+Os primeiros `TOLERANCIA_MINUTOS` de um bilhete são gratuitos. Caso a tolerância seja ultrapassada, a cobrança deve ser feita desde o primeiro minuto.
 
-O encerramento só pode ocorrer em bilhetes existentes
+Valores monetários devem ser representados exclusivamente como centavos inteiros.
 
-Um bilhete já encerrado não pode ser encerrado novamente
+Os bilhetes devem possuir identificador único e crescente, iniciado em 1.
 
-O tempo de permanência deve ser calculado em minutos inteiros
+A API deve utilizar a porta definida por `PORTA_SERVICO`.
 
-A cobrança deve arredondar o tempo para cima conforme a FRACAO_MINUTOS
+Os endpoints devem documentar suas respostas de sucesso e de erro.
 
-O valor cobrado nunca pode ultrapassar o TETO_DIARIO_CENTAVOS
-
-O valor retornado deve ser sempre um número inteiro em centavos
-
-Somente bilhetes com status aberto devem ser considerados ativos
-
-Os bilhetes ativos devem ser apresentados do mais recente para o mais antigo
-
-O endpoint deve retornar um array, mesmo quando não houver bilhetes ativos
-
-A data informada no relatório deve seguir o formato AAAA-MM-DD
-
-O relatório deve considerar os bilhetes encerrados no dia informado
-
-O faturamento deve ser apresentado em centavos inteiros
-
-O tempo médio deve ser arredondado com 0,5 para cima
-
-Somente bilhetes com status aberto podem ser cancelados
-
-O cancelamento não gera cobrança
-
-Um bilhete cancelado não pode ser cancelado novamente
-
-Um bilhete cancelado não deve possuir saida ou valor_centavos
-
-A consulta deve retornar todos os bilhetes associados à placa informada
-
-O histórico deve incluir bilhetes abertos, encerrados e cancelados
-
-Os resultados devem ser apresentados do mais recente para o mais antigo
-
-Uma placa sem histórico deve retornar um array vazio
-
-A tolerância inicial definida por TOLERANCIA_MINUTOS é gratuita
-
-Se a duração for igual ou menor que a tolerância, o valor será zero
-
-Se a duração ultrapassar a tolerância, a cobrança será feita desde o primeiro minuto
-
-A tolerância não deve ser descontada do tempo cobrado
-
-Uma placa não pode possuir mais de um bilhete com status aberto
-
-Uma placa com bilhete encerrado pode abrir um novo bilhete
-
-Uma placa com bilhete cancelado pode abrir um novo bilhete
-
-A verificação deve ocorrer antes da criação do novo bilhete
+Uma placa pode possuir no máximo um bilhete com status `aberto` simultaneamente.
